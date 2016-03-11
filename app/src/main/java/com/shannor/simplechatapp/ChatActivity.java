@@ -20,6 +20,9 @@ import com.shannor.simplechatapp.model.ChatAdapter;
 import com.shannor.simplechatapp.model.Conversation;
 
 import java.io.Console;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -100,18 +103,34 @@ public class ChatActivity extends AppCompatActivity {
 
     public String setUpAuth(){
 
-        mFireBaseRef.authAnonymously(new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                System.out.println("Successful Auth" + authData);
-            }
+        if (mFireBaseRef.getAuth() == null) {
 
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                System.out.println(firebaseError);
-            }
-        });
-       return mFireBaseRef.getAuth().getUid();
+            final CountDownLatch latch = new CountDownLatch(1);
+
+            mFireBaseRef.authAnonymously(new Firebase.AuthResultHandler() {
+                @Override
+                public void onAuthenticated(AuthData authData) {
+                    latch.countDown();
+                }
+
+                @Override
+                public void onAuthenticationError(FirebaseError firebaseError) {
+                    throw firebaseError.toException();
+                }
+            });
+
+            awaitLatch(latch);
+        }
+
+        return mFireBaseRef.getAuth().getUid();
+    }
+
+    private void awaitLatch(CountDownLatch latch) {
+        try {
+            latch.await(10, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendMessage(){
