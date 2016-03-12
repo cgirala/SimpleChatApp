@@ -12,6 +12,7 @@
     tools:showIn="@layout/activity_chat"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <!-- Will display all of the Chat messages-->
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
@@ -32,7 +33,7 @@
         android:padding="@dimen/pad_5dp"
         tools:context=".MainActivity" >
 
-
+        <!-- Where the message is put-->
         <EditText
             android:id="@+id/sending_messages"
             style="@style/edittext_msg"
@@ -43,6 +44,7 @@
 
         </EditText>
 
+           <!-- Button that will be used to send the message.-->
         <Button
             android:id="@+id/btnSend"
             style="@style/btn"
