@@ -60,6 +60,6 @@ public class ChatAdapter  extends FirebaseListAdapter<Conversation> {
 
         ((TextView)v.findViewById(R.id.message_content)).setText(model.getMessage());
 
-        //Can add time functionality if desired. Would be the same as previously done in this method.
+        //TODO:Add timestamps to messages. Look at the Conversation class.
     }
 }
