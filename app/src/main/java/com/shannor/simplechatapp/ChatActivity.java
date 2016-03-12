@@ -31,8 +31,10 @@ public class ChatActivity extends AppCompatActivity {
     public static final String FIREBASE_URL = "https://bootcampchat.firebaseio.com";
 
     private String uId;
+    //FireBase stuff is not necessary for you to know
     private Firebase mFireBaseRef;
     private Firebase mFireBaseMessages;
+    //********************************
     private ChatAdapter mChatAdapter;
 
     @Override
@@ -44,12 +46,10 @@ public class ChatActivity extends AppCompatActivity {
 
         //FireBase stuff no Concern
         Firebase.setAndroidContext(this);
-        //Gets the reference to Firebase
         mFireBaseRef = new Firebase(FIREBASE_URL);
         mFireBaseMessages = new Firebase(FIREBASE_URL).child("messages");
         //Creates an account for the user
         uId = setUpAuth();
-        Log.d("Uid", uId);
         Firebase userIdSave = mFireBaseRef.child("users");
 
         Map<String,String> userInfo = new HashMap<>();
@@ -61,13 +61,7 @@ public class ChatActivity extends AppCompatActivity {
 
         mFireBaseRef = new Firebase(FIREBASE_URL).child("messages");
 
-        Button postMessage = (Button)findViewById(R.id.btnSend);
-        postMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendMessage();
-            }
-        });
+        //TODO:Setup Button and Button listener.
     }
 
     @Override
@@ -157,12 +151,10 @@ public class ChatActivity extends AppCompatActivity {
      * How the user sends a message. For our app.
      */
     public void sendMessage(){
-        EditText inputText = (EditText)findViewById(R.id.sending_messages);
-        String input = inputText.getText().toString();
-        if(!input.equals("")){
-            Conversation mConversation = new Conversation(input,uId);
-            mFireBaseMessages.push().setValue(mConversation);
-            inputText.setText("");
-        }
+        //Pull the information from the Activity to be able to send messages.
+
     }
+    //Method to push it to the firebase.
+//    mFireBaseMessages.push().setValue(mConversation);
+
 }

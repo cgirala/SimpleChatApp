@@ -3,7 +3,6 @@ package com.shannor.simplechatapp.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.firebase.client.ServerValue;
 
-import java.util.Date;
 import java.util.Map;
 
 /**

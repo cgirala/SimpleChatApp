@@ -43,6 +43,7 @@ public class ChatAdapter  extends FirebaseListAdapter<Conversation> {
     @Override
     protected void populateView(final View v, Conversation model) {
         String sender = model.getUid();
+        //Pulls the user name from FireBase
         mFireBaseRef.child(sender).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -58,5 +59,7 @@ public class ChatAdapter  extends FirebaseListAdapter<Conversation> {
         });
 
         ((TextView)v.findViewById(R.id.message_content)).setText(model.getMessage());
+
+        //Can add time fucntionality if desiered. Would be the same as previously done in this method.
     }
 }
