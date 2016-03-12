@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * Created by Shannor on 3/9/2016.
+ * Basic class that will server as the model of what a conversation is.
  */
 public class Conversation {
 

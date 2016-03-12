@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class ChatActivity extends AppCompatActivity {
 
-    private static final String FIREBASE_URL = "https://bootcampchat.firebaseio.com";
+    public static final String FIREBASE_URL = "https://bootcampchat.firebaseio.com";
 
     private String uId;
     private Firebase mFireBaseRef;
@@ -52,7 +52,8 @@ public class ChatActivity extends AppCompatActivity {
         Firebase userIdSave = mFireBaseRef.child("users");
 
         Map<String,String> userInfo = new HashMap<>();
-        userInfo.put("name","Shannor Trotty");
+        String userName = "Shannor Trotty";
+        userInfo.put("name",userName);
         userInfo.put("platform","android");
 
         userIdSave.child(uId).setValue(userInfo);
@@ -108,6 +109,12 @@ public class ChatActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Code that deals with Firebase implementation.
+     * Not necessary if you don't care about how Firebase does things.
+     * @return
+     */
+
     public String setUpAuth(){
 
         if (mFireBaseRef.getAuth() == null) {
@@ -132,6 +139,10 @@ public class ChatActivity extends AppCompatActivity {
         return mFireBaseRef.getAuth().getUid();
     }
 
+    /**
+     * Also apart of Firebase implementation.
+     * @param latch
+     */
     private void awaitLatch(CountDownLatch latch) {
         try {
             latch.await(10, TimeUnit.SECONDS);
@@ -140,12 +151,14 @@ public class ChatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * How the user sends a message. For our app.
+     */
     public void sendMessage(){
         EditText inputText = (EditText)findViewById(R.id.sending_messages);
         String input = inputText.getText().toString();
         if(!input.equals("")){
             Conversation mConversation = new Conversation(input,uId);
-            Log.d("Firebase",mFireBaseMessages.getAuth().getUid());
             mFireBaseMessages.push().setValue(mConversation);
             inputText.setText("");
         }
