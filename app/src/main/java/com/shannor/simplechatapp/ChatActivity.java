@@ -20,6 +20,8 @@ import com.shannor.simplechatapp.model.ChatAdapter;
 import com.shannor.simplechatapp.model.Conversation;
 
 import java.io.Console;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
@@ -46,9 +48,14 @@ public class ChatActivity extends AppCompatActivity {
         mFireBaseMessages = new Firebase(FIREBASE_URL).child("messages");
         //Creates an account for the user
         uId = setUpAuth();
-        Log.d("Uid",uId);
+        Log.d("Uid", uId);
         Firebase userIdSave = mFireBaseRef.child("users");
-        userIdSave.child(uId).setValue("Shannor Trotty");
+
+        Map<String,String> userInfo = new HashMap<>();
+        userInfo.put("name","Shannor Trotty");
+        userInfo.put("platform","android");
+
+        userIdSave.child(uId).setValue(userInfo);
 
         mFireBaseRef = new Firebase(FIREBASE_URL).child("messages");
 
@@ -137,7 +144,6 @@ public class ChatActivity extends AppCompatActivity {
         EditText inputText = (EditText)findViewById(R.id.sending_messages);
         String input = inputText.getText().toString();
         if(!input.equals("")){
-            ServerValue serverVal = new ServerValue();
             Conversation mConversation = new Conversation(input,uId);
             Log.d("Firebase",mFireBaseMessages.getAuth().getUid());
             mFireBaseMessages.push().setValue(mConversation);
