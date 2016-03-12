@@ -36,6 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     private Firebase mFireBaseMessages;
     //********************************
     private ChatAdapter mChatAdapter;
+    private String userName = "Put Your Name Here";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +46,20 @@ public class ChatActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //FireBase stuff no Concern
+        //***************************************************
         Firebase.setAndroidContext(this);
         mFireBaseRef = new Firebase(FIREBASE_URL);
         mFireBaseMessages = new Firebase(FIREBASE_URL).child("messages");
         //Creates an account for the user
         uId = setUpAuth();
         Firebase userIdSave = mFireBaseRef.child("users");
-
         Map<String,String> userInfo = new HashMap<>();
         //Add your name here
-        userInfo.put("name","Your Name");
+        userInfo.put("name",userName);
         userInfo.put("platform","android");
-
         userIdSave.child(uId).setValue(userInfo);
-
         mFireBaseRef = new Firebase(FIREBASE_URL).child("messages");
+        //****************************************************
 
         //TODO:Setup Button and Button listener.
     }
@@ -79,8 +79,6 @@ public class ChatActivity extends AppCompatActivity {
                 listView.setSelection(mChatAdapter.getCount() - 1);
             }
         });
-
-
     }
 
     @Override
