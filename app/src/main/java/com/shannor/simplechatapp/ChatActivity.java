@@ -42,6 +42,7 @@ public class ChatActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //FireBase stuff no Concern
         Firebase.setAndroidContext(this);
         //Gets the reference to Firebase
         mFireBaseRef = new Firebase(FIREBASE_URL);
@@ -52,8 +53,8 @@ public class ChatActivity extends AppCompatActivity {
         Firebase userIdSave = mFireBaseRef.child("users");
 
         Map<String,String> userInfo = new HashMap<>();
-        String userName = "Shannor Trotty";
-        userInfo.put("name",userName);
+        //Add your name here
+        userInfo.put("name","Your Name");
         userInfo.put("platform","android");
 
         userIdSave.child(uId).setValue(userInfo);
@@ -76,6 +77,7 @@ public class ChatActivity extends AppCompatActivity {
         final ListView listView = (ListView)findViewById(R.id.list);
         mChatAdapter = new ChatAdapter(mFireBaseRef.limitToLast(40),this,R.layout.chat_item,uId);
         listView.setAdapter(mChatAdapter);
+
         mChatAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
             public void onChanged() {

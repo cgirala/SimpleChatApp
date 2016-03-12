@@ -57,9 +57,6 @@ public class ChatAdapter  extends FirebaseListAdapter<Conversation> {
             }
         });
 
-
-
-
         ((TextView)v.findViewById(R.id.message_content)).setText(model.getMessage());
     }
 }
