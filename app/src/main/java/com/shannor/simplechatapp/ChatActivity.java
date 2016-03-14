@@ -36,7 +36,7 @@ public class ChatActivity extends AppCompatActivity {
     private Firebase mFireBaseMessages;
     //********************************
     private ChatAdapter mChatAdapter;
-    private String userName = "Put Your Name Here";
+    private String userName = "Chris Girala";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,14 @@ public class ChatActivity extends AppCompatActivity {
         //****************************************************
 
         //TODO:Setup Button and Button listener.
+        Button  btn = (Button) findViewById(R.id.btnSend);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage();
+            }
+        });
+
     }
 
     @Override
@@ -150,6 +158,13 @@ public class ChatActivity extends AppCompatActivity {
      */
     public void sendMessage(){
         //Pull the information from the Activity to be able to send messages.
+        EditText et = (EditText) findViewById(R.id.sending_messages);
+        String msg = et.getText().toString();
+        if (!msg.equals("")) {
+            Conversation convo = new Conversation(msg, uId);
+            mFireBaseMessages.push().setValue(convo);
+            et.setText("");
+        }
 
     }
     //Method to push it to the firebase.

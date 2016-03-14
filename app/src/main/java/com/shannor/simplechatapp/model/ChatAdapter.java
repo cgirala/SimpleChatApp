@@ -17,7 +17,7 @@ import com.firebase.client.ValueEventListener;
 import com.shannor.simplechatapp.ChatActivity;
 import com.shannor.simplechatapp.R;
 
-import java.util.List;
+import java.text.DateFormat;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -31,12 +31,14 @@ public class ChatAdapter  extends FirebaseListAdapter<Conversation> {
     private String currentUser;
     private LayoutInflater mLayoutInflater;
     private Firebase mFireBaseRef;
+    private DateFormat date;
 
     public ChatAdapter(Query ref, Activity context, int layout, String currentUser){
         super(ref,Conversation.class,layout,context);
         this.currentUser = currentUser;
         mLayoutInflater = LayoutInflater.from(context);
         mFireBaseRef = new Firebase(ChatActivity.FIREBASE_URL).child("users");
+        date = DateFormat.getTimeInstance(DateFormat.SHORT);
     }
 
 
@@ -48,8 +50,15 @@ public class ChatAdapter  extends FirebaseListAdapter<Conversation> {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, String> userInfo = (Map<String, String>) dataSnapshot.getValue(Map.class);
-                TextView senderName = (TextView) v.findViewById(R.id.sender_name);
-                senderName.setText(userInfo.get("name"));
+                TextView time = (TextView) v.findViewById(R.id.timestamp);
+                if (userInfo != null) {
+                    TextView senderName = (TextView) v.findViewById(R.id.sender_name);
+                    senderName.setText(userInfo.get("name"));
+
+                } else {
+                    TextView senderName = (TextView) v.findViewById(R.id.sender_name);
+                    senderName.setText("");
+                }
             }
 
             @Override
@@ -61,5 +70,6 @@ public class ChatAdapter  extends FirebaseListAdapter<Conversation> {
         ((TextView)v.findViewById(R.id.message_content)).setText(model.getMessage());
 
         //TODO:Add timestamps to messages. Look at the Conversation class.
+        ((TextView)v.findViewById(R.id.timestamp)).setText(date.format(model.getTimestampLong()));
     }
 }
